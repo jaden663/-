@@ -1,0 +1,47 @@
+
+{
+  "pages": [
+    "pages/index/index",
+    "pages/training/index",
+    "pages/ai-coach/index",
+    "pages/tree-hole/index",
+    "pages/user/index",
+    "pages/share/index",
+    "pages/course-list/index",
+    "pages/calendar/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFC0CB",
+    "navigationBarTitleText": "产后修复每日练",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF85A1",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_active.png"
+      },
+      {
+        "pagePath": "pages/ai-coach/index",
+        "text": "AI康复顾问",
+        "iconPath": "images/chat.png",
+        "selectedIconPath": "images/chat_active.png"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "我的",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user_active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
