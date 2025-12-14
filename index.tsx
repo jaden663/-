@@ -2,21 +2,25 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // --- Configuration ---
-// 在 Vercel 部署时，最佳实践是将 Key 放入 Environment Variables。
-const DEEPSEEK_API_KEY: string = 'sk-1fd76eed72f74959afefa50a32dd69ff'; 
+// 1. 优先读取 Vercel 环境变量 VITE_DEEPSEEK_API_KEY
+// 2. 如果没配置，则回退到硬编码的 Key (仅用于本地测试，上线务必配置环境变量)
+const DEEPSEEK_API_KEY = (import.meta as any).env?.VITE_DEEPSEEK_API_KEY || 'sk-1fd76eed72f74959afefa50a32dd69ff'; 
 
 // --- API Helper ---
 async function callDeepSeek(messages: {role: string, content: string}[], systemPrompt: string) {
-  if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === 'YOUR_DEEPSEEK_API_KEY') {
-    return "请配置 DeepSeek API Key 才能激活我的大脑哦~ 🧠";
+  // 检查 Key 是否存在且不是占位符
+  if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY.includes('YOUR_DEEPSEEK_API_KEY')) {
+    return "⚠️ 请在 Vercel 后台配置 VITE_DEEPSEEK_API_KEY 环境变量，或在代码中填入正确的 Key。";
   }
 
   try {
+    // 转换消息格式以适配 API
     const apiMessages = messages.map(m => ({
       role: m.role === 'ai' ? 'assistant' : 'user',
       content: m.content
     }));
 
+    // DeepSeek 标准 API 调用
     const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: {
@@ -33,16 +37,23 @@ async function callDeepSeek(messages: {role: string, content: string}[], systemP
       })
     });
 
+    if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        console.error("DeepSeek API Error Details:", errData);
+        if (response.status === 401) return "API Key 无效或过期，请检查配置。";
+        if (response.status === 402) return "API 余额不足，请充值。";
+        return `API 请求失败 (${response.status})，请稍后再试。`;
+    }
+
     const data = await response.json();
     if (data.choices && data.choices.length > 0) {
       return data.choices[0].message.content;
     } else {
-      console.error("DeepSeek API Error", data);
-      return "我现在有点累，请稍后再试（API Error）。";
+      return "我现在有点累，没有返回内容，请重试。";
     }
   } catch (error) {
     console.error("Network Error", error);
-    return "网络连接好像断开了，请检查网络设置。";
+    return "网络连接异常，请检查您的网络设置。";
   }
 }
 
