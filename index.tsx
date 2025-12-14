@@ -1157,7 +1157,7 @@ function User({isVip, setVip, onNavigate}: any) {
                         💌
                     </div>
                     <div style={styles.menuContent}>
-                        <div style={styles.menuTitle}>邀请好友 <span style={styles.menuBadge, {background:'#FFE0B2', color:'#E65100'}}>福利</span></div>
+                        <div style={styles.menuTitle}>邀请好友 <span style={{...styles.menuBadge, background:'#FFE0B2', color:'#E65100'}}>福利</span></div>
                         <div style={styles.menuSubtitle}>邀请即送 7 天会员体验</div>
                     </div>
                     <div style={styles.menuAction}>
