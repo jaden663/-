@@ -1033,7 +1033,7 @@ function User({isVip, setVip, onNavigate}: any) {
             {/* Smart Health Dashboard */}
             <div style={{margin: '0 15px 10px', display:'flex', justifyContent:'space-between', fontSize:'14px', fontWeight:'600'}}>
                  <span>我的恢复档案</span>
-                 <span style={{color:'#FF99A6', fontSize:'12px', cursor:'pointer'}} onClick={() => setShowHealth(true)}>更新数据 ></span>
+                 <span style={{color:'#FF99A6', fontSize:'12px', cursor:'pointer'}} onClick={() => setShowHealth(true)}>更新数据 &gt;</span>
             </div>
             <div style={styles.healthDashboard}>
                <div style={styles.healthRowMain}>
